@@ -36,4 +36,14 @@ export default class Project{
     deleteTodo(todoName) {
         this.todos = this.todos.filter((todo) => todo.getName() !== todoName)
     }
+
+    setTodoDate(todoName, date){
+        const todo = this.todos.find((todo) => todo.getName() === todoName);
+        todo.setDate(date);
+    }
+
+    getTodoDate(){
+        const todo = this.todos.find((todo) => todo.getName() === todoName);
+        return todo.getDate();
+    }
 }

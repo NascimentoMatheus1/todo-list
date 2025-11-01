@@ -1,6 +1,7 @@
 export default class Todo {
     constructor(name){
         this.name = name;
+        this.date = undefined;
     }
 
     setName(name) {
@@ -9,5 +10,13 @@ export default class Todo {
 
     getName() {
         return this.name
+    }
+
+    setDate(date){
+        this.date = date;
+    }
+
+    getDate() {
+        return this.date
     }
 }

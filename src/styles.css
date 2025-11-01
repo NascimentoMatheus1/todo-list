@@ -105,7 +105,6 @@ main button{
     text-align: justify;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 10px;
 }
 
@@ -114,17 +113,12 @@ main button{
     background-color: var(--tea-rose-red);
 }
 
-.todo input{
-    border: none;
-    background-color: inherit;
+.todo > div > input {
     cursor: pointer;
-    width: 15px;
-    height: 15px;
-    margin-right: 10px;
 }
 
-.todo label{
-    overflow-wrap: break-word;
+.inputs{
+    flex-grow: 1;
 }
 
 .close-btn{

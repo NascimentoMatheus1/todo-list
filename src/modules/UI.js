@@ -76,14 +76,14 @@ export default class UI{
             .getProject(projectName)
             .getTodos()
             .forEach(todo => {
-                const todoElem = UI.createTodoElement(projectName, todo.getName());
+                const todoElem = UI.createTodoElement(projectName, todo);
                 fragment.append(todoElem);
             });
 
         todosContainer.append(fragment);
     }
 
-    static createTodoElement(ProjectName, todoName){
+    static createTodoElement(ProjectName, todoObj){
         const todo = document.createElement('div');
         todo.classList.add('todo');
 
@@ -95,10 +95,19 @@ export default class UI{
         inputCheckbox.addEventListener('click', UI.checkTodoListener);
         
         const label = document.createElement('label');
-        label.textContent = todoName;
+        label.textContent = todoObj.getName();
 
         inputsContainer.append(inputCheckbox);
         inputsContainer.append(label);
+
+        const dateContainer = document.createElement('div')
+        const dateInput = document.createElement('input')
+        dateInput.type = 'date';
+        if(todoObj.getDate()){
+            dateInput.value = todoObj.getDate();
+        }
+        dateInput.addEventListener('change', UI.dateTodoListener);
+        dateContainer.append(dateInput);
         
         const closeButtonContainer = document.createElement('div');
         closeButtonContainer.classList.add('close-btn');
@@ -106,8 +115,9 @@ export default class UI{
         closeButtonContainer.addEventListener('click', UI.deleteTodoListener);
 
         todo.append(inputsContainer);
+        todo.append(dateContainer);
         todo.append(closeButtonContainer);
-        todo.dataset.todoName = todoName;
+        todo.dataset.todoName = todoObj.getName();
         todo.dataset.projectName = ProjectName
         return todo;
     }
@@ -128,8 +138,17 @@ export default class UI{
         if(projectName === 'Completed'){
             return
         }
+        const todoObj = Storage.getTodoList().getProject(projectName).getTodo(todoName);
         Storage.deleteTodo(projectName, todoName);
-        Storage.addTodo('Completed', new Todo(todoName));
+        Storage.addTodo('Completed', todoObj);
         UI.loadTodosSaved(Storage.getActiveProject());
+    }
+
+    static dateTodoListener(event){
+        const dateInput = event.target;
+        const grandParent = dateInput.parentElement.parentElement;
+        const todoName = grandParent.dataset.todoName;
+        const projectName = grandParent.dataset.projectName;
+        Storage.setTodoDate(projectName, todoName, dateInput.value);
     }
 }
