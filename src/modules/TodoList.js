@@ -6,6 +6,16 @@ export default class TodoList {
         this.projects.push(new Project('Inbox'));  
         this.projects.push(new Project('Today')); 
         this.projects.push(new Project('This week')); 
+        this.projects.push(new Project('Completed'));
+        this.activeProject = 'Inbox';
+    }
+
+    setActiveProject(projectName){
+        this.activeProject = projectName;
+    }
+    
+    getActiveProject(){
+        return this.activeProject;
     }
 
     setProjects(projects) {

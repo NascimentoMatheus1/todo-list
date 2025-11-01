@@ -34,6 +34,6 @@ export default class Project{
     }
 
     deleteTodo(todoName) {
-        this.todos = this.todos.filter((todo) => todo.name !== todoName)
+        this.todos = this.todos.filter((todo) => todo.getName() !== todoName)
     }
 }

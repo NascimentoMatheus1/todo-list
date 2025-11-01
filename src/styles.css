@@ -194,3 +194,29 @@ footer > a > img{
     height: 24x;
     width: 24px;
 }
+
+.cross-icon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.cross-icon::before,
+.cross-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px; 
+  height: 100%;
+  background-color: black;
+  transform-origin: center;
+}
+
+.cross-icon::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.cross-icon::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
