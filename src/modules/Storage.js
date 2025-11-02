@@ -1,3 +1,4 @@
+const { format, isSameDay, isSameWeek } = require('date-fns');
 import Todo from "./Todo";
 import Project from "./Project";
 import TodoList from "./TodoList";
@@ -64,9 +65,23 @@ export default class Storage{
         Storage.saveTodoList(todoList);
     }
 
-    static setTodoDate(projectName, todo, dateValue){
+    static setTodoDate(projectName, todoName, dateValue){
         const todoList = Storage.getTodoList();
-        todoList.getProject(projectName).setTodoDate(todo, dateValue);
+        const today = format(new Date(), "yyyy-MM-dd");
+        
+        if(isSameDay(today, dateValue)){
+            todoList.getProject(projectName).deleteTodo(todoName);
+            todoList.getProject('Today').addTodo(new Todo(todoName));
+            todoList.getProject('Today').setTodoDate(todoName, dateValue);
+        }
+        else if(isSameWeek(today, dateValue)){
+            todoList.getProject(projectName).deleteTodo(todoName);
+            todoList.getProject('This week').addTodo(new Todo(todoName));
+            todoList.getProject('This week').setTodoDate(todoName, dateValue);
+        }
+        else{
+            todoList.getProject(projectName).setTodoDate(todoName, dateValue);
+        }
         Storage.saveTodoList(todoList);
     }
 

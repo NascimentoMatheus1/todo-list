@@ -1,5 +1,5 @@
 import Todo from "./Todo";
-import Storage from "./storage";
+import Storage from "./Storage";
 
 export default class UI{
    
@@ -12,12 +12,16 @@ export default class UI{
         const addTodo = document.getElementById('addTodo');
         const cancelButton = document.getElementById("cancel");
         const addButton = document.getElementById("add");
-        const inboxCompletedBtn = document.getElementById('projectInboxBtn');
+        const inboxBtn = document.getElementById('projectInboxBtn');
+        const todayBtn = document.getElementById('projectTodayBtn');
+        const thisWeekBtn = document.getElementById('projectthisWeekBtn');
         const projectCompletedBtn = document.getElementById('projectCompletedBtn');
         addTodo.addEventListener('click', UI.showTodoInput);
         cancelButton.addEventListener('click', UI.hideTodoInput);
         addButton.addEventListener('click', UI.todoTextInputValidation);
-        inboxCompletedBtn.addEventListener('click', UI.inboxBtnListener);
+        inboxBtn.addEventListener('click', UI.inboxBtnListener);
+        todayBtn.addEventListener('click', UI.todayBtnListener);
+        thisWeekBtn.addEventListener('click', UI.thisWeekBtnListener);
         projectCompletedBtn.addEventListener('click', UI.completedBtnListener);
     }
 
@@ -28,6 +32,16 @@ export default class UI{
 
     static completedBtnListener(){
         Storage.setActiveProject('Completed');
+        UI.loadTodosSaved(Storage.getActiveProject());
+    }
+
+    static todayBtnListener(){
+        Storage.setActiveProject('Today');
+        UI.loadTodosSaved(Storage.getActiveProject());
+    }
+
+    static thisWeekBtnListener(){
+        Storage.setActiveProject('This week');
         UI.loadTodosSaved(Storage.getActiveProject());
     }
 
@@ -90,14 +104,15 @@ export default class UI{
         const inputsContainer = document.createElement('div');
         inputsContainer.classList.add('inputs');
 
-        const inputCheckbox = document.createElement('input');
-        inputCheckbox.type = 'checkbox';
-        inputCheckbox.addEventListener('click', UI.checkTodoListener);
+        if(ProjectName !== 'Completed'){
+            const inputCheckbox = document.createElement('input');
+            inputCheckbox.type = 'checkbox';
+            inputCheckbox.addEventListener('click', UI.checkTodoListener);
+            inputsContainer.append(inputCheckbox);
+        }
         
         const label = document.createElement('label');
         label.textContent = todoObj.getName();
-
-        inputsContainer.append(inputCheckbox);
         inputsContainer.append(label);
 
         const dateContainer = document.createElement('div')
@@ -135,9 +150,6 @@ export default class UI{
         const grandParent = inputCheckbox.parentElement.parentElement;
         const todoName = grandParent.dataset.todoName;
         const projectName = grandParent.dataset.projectName;
-        if(projectName === 'Completed'){
-            return
-        }
         const todoObj = Storage.getTodoList().getProject(projectName).getTodo(todoName);
         Storage.deleteTodo(projectName, todoName);
         Storage.addTodo('Completed', todoObj);
@@ -150,5 +162,6 @@ export default class UI{
         const todoName = grandParent.dataset.todoName;
         const projectName = grandParent.dataset.projectName;
         Storage.setTodoDate(projectName, todoName, dateInput.value);
+        UI.loadTodosSaved(Storage.getActiveProject());
     }
 }
