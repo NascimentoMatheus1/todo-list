@@ -44,6 +44,7 @@ header{
 nav{
     padding: 10px 20px;
     background-color: var(--cambridge-blue);
+    color: white;
     grid-row: 2 / 5;
 }
 
@@ -71,6 +72,49 @@ nav li:hover{
     transition: ease-in 200ms;
     background-color: var(--gunmetal);
 }
+
+.project{
+    word-break: break-all;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    transition: ease-in 200ms;
+    cursor: pointer;
+}
+
+.project:hover{
+    background-color: var(--gunmetal);
+}
+
+#addProjects{
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: ease-in 200ms;
+}
+
+#addProjects:hover{
+    background-color: var(--gunmetal);
+}
+
+#projectsForm{
+    display: none;
+    gap: 5px;
+}
+
+#projectsForm > input[type="button"], #projectsForm > input[type="submit"]{
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
 
 main{
     padding: 20px;
@@ -193,6 +237,7 @@ footer > a > img{
   width: 20px;
   height: 20px;
   position: relative;
+  cursor: pointer;
 }
 
 .cross-icon::before,

@@ -1,28 +1,63 @@
 import Todo from "./Todo";
+import Project from "./Project";
 import Storage from "./Storage";
 
 export default class UI{
    
     static initialLoad(){
-        UI.loadTodosSaved(Storage.getActiveProject());
+        Storage.setActiveProject('Inbox');
+        UI.loadTodosSaved('Inbox');
+        UI.loadProjectsSaved();
         UI.loadButtonsEventsListeners();
     }
 
     static loadButtonsEventsListeners(){
-        const addTodo = document.getElementById('addTodo');
-        const cancelButton = document.getElementById("cancel");
-        const addButton = document.getElementById("add");
+        //Menu buttons
         const inboxBtn = document.getElementById('projectInboxBtn');
         const todayBtn = document.getElementById('projectTodayBtn');
         const thisWeekBtn = document.getElementById('projectthisWeekBtn');
-        const projectCompletedBtn = document.getElementById('projectCompletedBtn');
-        addTodo.addEventListener('click', UI.showTodoInput);
-        cancelButton.addEventListener('click', UI.hideTodoInput);
-        addButton.addEventListener('click', UI.todoTextInputValidation);
+        const completedBtn = document.getElementById('projectCompletedBtn');
         inboxBtn.addEventListener('click', UI.inboxBtnListener);
         todayBtn.addEventListener('click', UI.todayBtnListener);
         thisWeekBtn.addEventListener('click', UI.thisWeekBtnListener);
-        projectCompletedBtn.addEventListener('click', UI.completedBtnListener);
+        completedBtn.addEventListener('click', UI.completedBtnListener);
+
+        // Add new projects buttons
+        const addProjectBtn = document.getElementById('addProjects');
+        const projectForm = document.getElementById('projectsForm');
+        const cancelFormBtn = document.getElementById('cancelFormBtn')
+        addProjectBtn.addEventListener('click', UI.showProjectForm);
+        projectForm.addEventListener('submit', UI.projectFormListener);
+        cancelFormBtn.addEventListener('click', UI.hideProjectForm);
+
+        // add new todo buttons
+        const addTaskBtn = document.getElementById('addTodo');
+        const cancelTodoFormBtn = document.getElementById("cancel");
+        const addTodoFormBtn = document.getElementById("add");
+        addTaskBtn.addEventListener('click', UI.showTodoInput);
+        cancelTodoFormBtn.addEventListener('click', UI.hideTodoInput);
+        addTodoFormBtn.addEventListener('click', UI.todoTextInputValidation); 
+    }
+
+    static showProjectForm(){
+        const projectForm = document.getElementById('projectsForm');
+        projectForm.style.display = 'flex';
+    }
+
+    static hideProjectForm(){
+        const projectForm = document.getElementById('projectsForm');
+        projectForm.style.display = 'none';
+    }
+
+    static projectFormListener(event){
+        event.preventDefault();
+        const data = new FormData(event.target);
+        const name = data.get('name');
+        Storage.addTodoList(new Project(name));
+        Storage.setActiveProject(name);
+        UI.loadTodosSaved(name);
+        UI.loadProjectsSaved();
+        UI.hideProjectForm(); 
     }
 
     static inboxBtnListener(){
@@ -42,6 +77,66 @@ export default class UI{
 
     static thisWeekBtnListener(){
         Storage.setActiveProject('This week');
+        UI.loadTodosSaved(Storage.getActiveProject());
+    }
+
+    static loadProjectsSaved(){
+        const projectsContainer = document.getElementById('projects-container');
+        projectsContainer.innerHTML = '';
+
+        const fragment = document.createDocumentFragment();
+
+        Storage
+            .getTodoList()
+            .getProjects()
+            .forEach( project => {
+                const name = project.getName();
+                if(
+                    name !== 'Inbox' && 
+                    name !== 'Today' && 
+                    name !== 'This week' &&
+                    name !== 'Completed'
+                ){
+                    const projectElem = UI.CreateProjectElement(project.getName());
+                    fragment.append(projectElem);
+                }
+            });
+        
+        projectsContainer.append(fragment);
+    }
+
+    static CreateProjectElement(name){
+        const project = document.createElement('div');
+        project.classList.add('project');
+
+        const projectName = document.createElement('div');
+        projectName.classList.add('projectName');
+        projectName.innerText = name;
+
+        const crossIcon = document.createElement('div');
+        crossIcon.classList.add('cross-icon');
+        crossIcon.addEventListener('click', UI.deleteProjectListener);
+
+        project.append(projectName);
+        project.append(crossIcon);
+
+        project.addEventListener('click', UI.projectListener);
+        project.dataset.name = name;
+        return project;
+    }
+
+    static projectListener(e){
+        const projectName = e.currentTarget.dataset.name;
+        Storage.setActiveProject(projectName);
+        UI.loadTodosSaved(Storage.getActiveProject());
+    }
+
+    static deleteProjectListener(e){
+        e.stopPropagation();
+        const projectElem = e.currentTarget.parentElement;
+        Storage.deleteProject(projectElem.dataset.name);
+        Storage.setActiveProject('Inbox');
+        UI.loadProjectsSaved();
         UI.loadTodosSaved(Storage.getActiveProject());
     }
 
