@@ -165,6 +165,10 @@ main button{
     flex-grow: 1;
 }
 
+.inputs > input{
+    margin-right: 5px;
+}
+
 .close-btn{
     cursor: pointer;
 }
@@ -206,11 +210,11 @@ main button{
     cursor: pointer;
 }
 
-#add{
+.addBtn{
     background-color:  rgb(73, 236, 73);
 }
 
-#cancel{
+.cancelBtn{
     background-color: rgb(226, 91, 91);
 }
 
