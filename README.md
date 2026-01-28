@@ -1,22 +1,23 @@
-# Todo list
-- Um Todo List (Lista de Tarefas) é uma aplicação simples para gerenciar tarefas do dia a dia, permitindo que usuários organizem, priorizem e acompanhem suas atividades.
-- [Visualização (Live Preview)](https://nascimentomatheus1.github.io/todo-list/)
- ## Objetivo:
-- Criar uma aplicação de lista de tarefas (Todo List) funcional e dinâmica, consolidando conceitos de JavaScript, manipulação do DOM, organização de código e uso de armazenamento local.
+# Todo List
+## A Todo List is a simple application for managing daily tasks, allowing users to organize, prioritize, and track their activities.
 
-## Principais Etapas:
-- Seperação de Lógica e Interface
-- Funcionalidades da Interface (UI)
-- Persistência de Dados
-- Ferramentas e Bibliotecas (date-fns e Webpack)
+# Live Preview >>> [Click here](https://nascimentomatheus1.github.io/todo-list/)
 
-## Habilidades Praticadas:
-- Programação orientada a objetos (classes/factories).
-- Manipulação do DOM e eventos.
-- Organização de código em módulos.
-- Persistência de dados com Web Storage API.
-- Princípios SOLID
+# Objective:
+- To create a functional and dynamic Todo List application, consolidating concepts of JavaScript, DOM manipulation, code organization, and the use of local storage.
+
+#Key Steps:
+- Separation of Concerns: Decoupling logic from the user interface.
+- UI Functionalities: Creating a responsive and interactive user experience.
+- Data Persistence: Saving user tasks across browser sessions.
+- Tools & Libraries: Implementing date-fns for date formatting and Webpack for module bundling.
+
+# Skills Practiced:
+- Object-Oriented Programming: Utilizing classes and factory functions.
+- DOM Manipulation: Handling dynamic updates and event listeners.
+- Modular Code: Organizing project structure into reusable modules.
+- Web Storage API: Implementing data persistence via localStorage.
+- SOLID Principles: Applying software design patterns for cleaner, maintainable code.
   
-##
-Essa [tarefa](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) faz parte do curso [The Odin Project](https://www.theodinproject.com/about) 
+### This [assignment](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) is part of [The Odin Project](https://www.theodinproject.com/about) curriculum.
 
